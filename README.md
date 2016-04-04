@@ -1,6 +1,6 @@
 # marauder
 
-You can get the working version of this project from: https://github.com/srotya/marauder
+The original project resides here: https://github.com/ambud/marauder
 
 Marauder is an open source SIEM platform available under GNU GPL v2, please make sure you read the terms of license here: http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
