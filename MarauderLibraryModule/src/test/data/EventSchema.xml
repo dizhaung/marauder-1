@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+/** Copyright 2013 Ambud Sharma
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
+<configuration xmlns="http://www.example.com/name"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://www.example.com/name EventSchema.xsd">
+  <marauder>  	
+    <cols>
+      <col id="id" loc="hdr" grp="2">(\t(\d{4})\t)</col>
+      <col id="hn" loc="hdr" grp="2">(\t(([a-zA-Z0-9-]+)(\.)(contoso|contoso)(\.)(COM|com))\t)</col>
+      <col id="as" loc="hdr" grp="1">\t(Audit Success|Audit Failure)\t</col>
+      <col id="ots" loc="hdr" grp="1">\t(([A-Z][a-z][a-z])\s([A-Z][a-z][a-z])\s\d{2}\s\d{2}[:]\d{2}[:]\d{2}\s\d{4})\t</col>
+    </cols>
+    <cols>
+      <col id="an" loc="msg" grp="4" index="true">((\s+Account Name:)(\s+([a-zA-Z0-9-]+)(.*)))</col>
+      <col id="la" loc="msg" grp="4" index="true">((\s+Logon Account:)(\s+(.*)))</col>
+      <col id="as" loc="msg" grp="5">((\s+Audit (Success|Failure):)(\s+(.*)))</col>
+      <col id="sa" loc="msg" grp="4">((\s+Source Address:)(\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})))</col>
+      <col id="da" loc="msg" grp="4">((\s+Destination Address:)(\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})))</col>
+      <col id="ad" loc="msg" grp="4">((\s+Account Domain:)(\s+([a-zA-Z]+)))</col>
+      <col id="lgd" loc="msg" grp="4">((\s+Logon GUID:)(\s+(.*)))</col>
+      <col id="pid" loc="msg" grp="4">((\s+Process ID:)(\s+(.*)))</col>
+      <col id="lid" loc="msg" grp="4">((\s+Logon ID:)(\s+(.*)))</col>
+      <col id="sid" loc="msg" grp="4">((\s+Security ID:)(\s+((S|s)-1-5(\d|-){5,})))</col>
+      <col id="pn" loc="msg" grp="4">((\s+Process Name:)(\s+(.*)))</col>
+      <col id="sw" loc="msg" grp="4">((\s+Source Workstation:)(\s+(.*)))</col>
+      <col id="wn" loc="msg" grp="4">((\s+Workstation Name:)(\s+(.*(\.constoso\.com))))</col>
+      <col id="lgtp" loc="msg" grp="4">((\s+Logon Type:)(\s+(.*)))</col>
+      <col id="sna" loc="msg" grp="4">((\s+Source Network Address:)(\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})))</col>
+      <col id="dna" loc="msg" grp="4">((\s+Destination Network Address:)(\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})))</col>
+      <col id="snp" loc="msg" grp="4">((\s+Source Network Port:)(\s+(\d{0,5})))</col>
+      <col id="dnp" loc="msg" grp="4">((\s+Destination Network Port:)(\s+(\d{0,5})))</col>
+      <col id="sp" loc="msg" grp="4">((\s+Source Port:)(\s+(\d{0,5})))</col>
+      <col id="dp" loc="msg" grp="4">((\s+Destination Port:)(\s+(\d{0,5})))</col>
+      <col id="ndi" loc="msg" grp="4">((\s+Direction:)(\s+(.*)))</col>
+      <col id="npr" loc="msg" grp="4">((\s+Protocol:)(\s+(.*)))</col>
+      <col id="nfid" loc="msg" grp="4">((\s+Filter Run-Time ID:)(\s+(.*)))</col>
+      <col id="nln" loc="msg" grp="4">((\s+Layer Name:)(\s+(.*)))</col>
+      <col id="nlrid" loc="msg" grp="4">((\s+Layer Run-Time ID:)(\s+(.*)))</col>
+      <col id="app" loc="msg" grp="4">((\s+Application Name:)(\s+(.*)))</col>
+      <col id="cpid" loc="msg" grp="4">((\s+Caller Process ID:)(\s+(.*)))</col>
+      <col id="cpn" loc="msg" grp="4">((\s+Caller Process Name:)(\s+(.*)))</col>
+    </cols>
+    <wevents>
+      <wevent id="default">
+        <keys>
+          <key id="an1" priority="2">an#as#rand</key>
+          <key id="lg" priority="3">lg#as#rand</key>
+          <key id="sid" priority="1">sid#as#rand</key>
+          <key id="hn" priority="4">as</key>
+        </keys>
+        <cols>
+          <!-- the columns here are meant to either add additonal fields or override the extraction string defined in the defaults sections-->
+        </cols>
+      </wevent>
+      <wevent id="4625">
+        <keys>
+          <key id="sid" priority="1">sid#as#ts#rand</key>
+          <key id="scn" priority="3">scn#as#ts#rand</key>
+          <key id="an" priority="2">as#ts#rand</key>
+        </keys>
+        <cols>
+          <!-- the columns here are meant to either add additonal fields or override the extraction string defined in the defaults sections-->
+          <col id="sid" loc="msg" grp="6">(New Logon:(.*|\n)+)((\s+Security ID:)(\s+(.*)))</col>
+        </cols>
+      </wevent>
+      <wevent id="4624">
+        <keys>
+          <key id="sid" priority="1">id#sid#as#ts#rand</key>
+        </keys>
+        <cols>
+          <!-- the columns here are meant to either add additonal fields or override the extraction string defined in the defaults sections-->
+          <col id="sid" loc="msg" grp="6">(New Logon:(.*|\n)+)((\s+Security ID:)(\s+((S|s)-1-5(\d|-){5,})))</col>
+          <col id="ssid" loc="msg" grp="6">(Subject:(.*|\n)+)((\s+Security ID:)(\s+((S|s)-1-5(\d|-){1,})))</col>
+        </cols>
+      </wevent>
+      <wevent id="4776">
+        <keys>
+          <key id="sid" priority="1">id#sid#as#ts#rand</key>
+          <key id="lg" priority="2">id#lg#as#ts#rand</key>
+          <key id="scn" priority="3">id#scn#as#ts#rand</key>
+        </keys>
+        <cols>
+          <!-- the columns here are meant to either add additonal fields or override the extraction string defined in the defaults sections-->
+          <col id="sid" loc="msg" grp="5">(Subject:)((\s+Security ID:)(\s+((S|s)-1-5(\d|-){5,})))</col>
+        </cols>
+      </wevent>
+    </wevents>
+    <contexts>
+    	<context name="ids">    		
+    		<def key="id" value="4776" />
+    	</context>
+    </contexts>
+  </marauder>
+</configuration>
