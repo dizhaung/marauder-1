@@ -15,6 +15,14 @@
 	<url>https://github.com/srotya/marauder</url>
 	<description>Marauder is an open source SIEM platform released under GNU GPLv2</description>
 	
+	<modules>
+		<module>MarauderAnalyticsModule</module>
+		<module>MarauderGenericSinkModule</module>
+		<module>MarauderGenericSourceModule</module>
+		<module>MarauderLibraryModule</module>
+		<module>MarauderSnortSource</module>
+	</modules>
+	
 	<scm>
 		<url>https://github.com/srotya/marauder.git</url>
 		<connection>scm:git:git@github.com:srotya/marauder.git</connection>
