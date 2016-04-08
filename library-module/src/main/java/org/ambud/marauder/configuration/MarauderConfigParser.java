@@ -51,7 +51,7 @@ import org.xml.sax.SAXException;
  * @author Ambud Sharma
  */
 public class MarauderConfigParser {
-		
+
 	private MarauderGlobalConfig configHolder;
 	private XPath xpath = XPathFactory.newInstance().newXPath();
 	private final Logger logger = Logger.getLogger(MarauderConfigParser.class.getCanonicalName());
@@ -60,7 +60,8 @@ public class MarauderConfigParser {
 
 	/**
 	 * @param configHolderRef
-	 * @throws Exception
+	 * @param xmlSchemaPath
+	 * @param xmlConfigPath
 	 */
 	public MarauderConfigParser(MarauderGlobalConfig configHolderRef, String xmlSchemaPath, String xmlConfigPath) {
 		this.configHolder = configHolderRef;
@@ -76,7 +77,8 @@ public class MarauderConfigParser {
 	}
 
 	/**
-	 * @param xmlConfigFile the xmlConfigFile to set
+	 * @param xmlConfigFile
+	 *            the xmlConfigFile to set
 	 */
 	public void setXmlConfigFile(String xmlConfigFile) {
 		this.xmlConfigFile = xmlConfigFile;
@@ -90,46 +92,51 @@ public class MarauderConfigParser {
 	}
 
 	/**
-	 * @param xmlSchemaFile the xmlSchemaFile to set
+	 * @param xmlSchemaFile
+	 *            the xmlSchemaFile to set
 	 */
 	public void setXmlSchemaFile(String xmlSchemaFile) {
 		this.xmlSchemaFile = xmlSchemaFile;
 	}
 
 	/**
-	 * Load the XML schema as a document and extract
-	 * 	ColumnDefinitions
-	 * &EventDefinitions from it
+	 * Load the XML schema as a document and extract ColumnDefinitions
+	 * and EventDefinitions from it
+	 * 
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 * @throws IOException
 	 * @throws XPathExpressionException
-	 * @throws UnvalidatedXMLConfigException 
+	 * @throws UnvalidatedXMLConfigException
 	 */
-	public void init() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, UnvalidatedXMLConfigException{
-		if(!isValidated){
+	public void init() throws ParserConfigurationException, SAXException, IOException, XPathExpressionException,
+			UnvalidatedXMLConfigException {
+		if (!isValidated) {
 			throw new UnvalidatedXMLConfigException();
 		}
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-		logger.log(Level.INFO, "Loading configuration from:"+xmlConfigFile);
+		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+		logger.log(Level.INFO, "Loading configuration from:" + xmlConfigFile);
 		Document marauderSchema = docBuilder.parse(new File(xmlConfigFile));
 		initHeaderDefinitions(marauderSchema);
 		initColumnDefinitions(marauderSchema);
 		initEventDefinitions(marauderSchema);
 		initContextLookup(marauderSchema);
 		logger.log(Level.INFO, "Completed configuration initialization for MarauderSink");
-	}	
-	
+	}
+
 	/**
 	 * Initialize Header Definitions
+	 * 
 	 * @param marauderSchema
 	 * @throws XPathExpressionException
 	 */
 	protected void initHeaderDefinitions(Document marauderSchema) throws XPathExpressionException {
 		NodeList columnNodes = null;
 		try {
-			columnNodes = (NodeList) xpath.compile(MarauderParserConstants.XML_MARAUDER_BASE_XPATH+MarauderParserConstants.XML_MARAUDER_HDR_COL_XPATH)
+			columnNodes = (NodeList) xpath
+					.compile(MarauderParserConstants.XML_MARAUDER_BASE_XPATH
+							+ MarauderParserConstants.XML_MARAUDER_HDR_COL_XPATH)
 					.evaluate(marauderSchema, XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
 			logger.log(Level.SEVERE, "XPath exception occured while trying to initialize Header Definitions");
@@ -140,13 +147,16 @@ public class MarauderConfigParser {
 
 	/**
 	 * Initialize column definitions from document
+	 * 
 	 * @param marauderSchema
 	 * @throws XPathExpressionException
 	 */
-	protected void initColumnDefinitions(Document marauderSchema) throws XPathExpressionException{				
+	protected void initColumnDefinitions(Document marauderSchema) throws XPathExpressionException {
 		NodeList columnNodes = null;
 		try {
-			columnNodes = (NodeList) xpath.compile(MarauderParserConstants.XML_MARAUDER_BASE_XPATH+MarauderParserConstants.XML_MARAUDER_COLS_COL_XPATH)
+			columnNodes = (NodeList) xpath
+					.compile(MarauderParserConstants.XML_MARAUDER_BASE_XPATH
+							+ MarauderParserConstants.XML_MARAUDER_COLS_COL_XPATH)
 					.evaluate(marauderSchema, XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
 			logger.log(Level.SEVERE, "XPath exception occured while trying to initialize Column Definitions");
@@ -154,215 +164,219 @@ public class MarauderConfigParser {
 		}
 		extractColumnInformation(configHolder.getColumnDefinitions(), columnNodes);
 	}
-	
+
 	/**
 	 * Extract column definitions from document
+	 * 
 	 * @param colDefs
 	 * @param columnNodes
 	 */
-	protected void extractColumnInformation(HashMap<String, MarauderColumnDefinition> colDefs, 
-			NodeList columnNodes){
-		MarauderColumnDefinition tempDefinition = null;		
-		for(int i = 0;i<columnNodes.getLength();i++){			
+	protected void extractColumnInformation(HashMap<String, MarauderColumnDefinition> colDefs, NodeList columnNodes) {
+		MarauderColumnDefinition tempDefinition = null;
+		for (int i = 0; i < columnNodes.getLength(); i++) {
 			Node colNode = columnNodes.item(i);
-			if(!colNode.getNodeName().equalsIgnoreCase(MarauderParserConstants.MARAUDER_COL_TAG)){
+			if (!colNode.getNodeName().equalsIgnoreCase(MarauderParserConstants.MARAUDER_COL_TAG)) {
 				continue;
-			}			
-			NamedNodeMap colAttributes = colNode.getAttributes();			
-			String colId = colAttributes.getNamedItem(MarauderParserConstants.MARAUDER_COL_ID_ATTRIBUTE)
-					.getNodeValue();
-			tempDefinition = new MarauderColumnDefinition(
-					colId, 
-					colAttributes.getNamedItem(MarauderParserConstants.MARAUDER_COL_LOC_ATTRIBUTE)
-					.getNodeValue(),
-					Integer.parseInt(colAttributes.getNamedItem(MarauderParserConstants
-							.MARAUDER_COL_GROUP_ATTRIBUTE).getNodeValue()),
+			}
+			NamedNodeMap colAttributes = colNode.getAttributes();
+			String colId = colAttributes.getNamedItem(MarauderParserConstants.MARAUDER_COL_ID_ATTRIBUTE).getNodeValue();
+			tempDefinition = new MarauderColumnDefinition(colId,
+					colAttributes.getNamedItem(MarauderParserConstants.MARAUDER_COL_LOC_ATTRIBUTE).getNodeValue(),
+					Integer.parseInt(colAttributes.getNamedItem(MarauderParserConstants.MARAUDER_COL_GROUP_ATTRIBUTE)
+							.getNodeValue()),
 					colNode.getTextContent());
 			Node indexEnabled = null;
-			if((indexEnabled = colAttributes.getNamedItem(MarauderParserConstants.MARAUDER_COL_INDEX_ATTRIBUTE)) != null){
-				tempDefinition.setIndex(
-						Boolean.parseBoolean(
-								indexEnabled
-								.getNodeValue()));
+			if ((indexEnabled = colAttributes
+					.getNamedItem(MarauderParserConstants.MARAUDER_COL_INDEX_ATTRIBUTE)) != null) {
+				tempDefinition.setIndex(Boolean.parseBoolean(indexEnabled.getNodeValue()));
 			}
 			colDefs.put(colId, tempDefinition);
 		}
 	}
-	
+
 	/**
 	 * Initialize event definitions from event schema
+	 * 
 	 * @param marauderSchema
 	 * @throws XPathExpressionException
 	 */
-	protected void initEventDefinitions(Document marauderSchema) throws XPathExpressionException{
+	protected void initEventDefinitions(Document marauderSchema) throws XPathExpressionException {
 		MarauderEventDefinition tempDefinition = null;
-		XPath xpath = XPathFactory.newInstance().newXPath();		
+		XPath xpath = XPathFactory.newInstance().newXPath();
 		NodeList eventNodes = null;
 		try {
-			eventNodes = (NodeList) xpath.compile(MarauderParserConstants.XML_MARAUDER_BASE_XPATH
-					+MarauderParserConstants.XML_MARAUDER_WEVENTS_XPATH).evaluate(marauderSchema, XPathConstants.NODESET);
+			eventNodes = (NodeList) xpath
+					.compile(MarauderParserConstants.XML_MARAUDER_BASE_XPATH
+							+ MarauderParserConstants.XML_MARAUDER_WEVENTS_XPATH)
+					.evaluate(marauderSchema, XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
 			logger.log(Level.SEVERE, "XPath exception occured while trying to initialize Event Definitions");
 			throw e;
 		}
-		for(int j = 0;j<eventNodes.getLength();j++){
+		for (int j = 0; j < eventNodes.getLength(); j++) {
 			Node evNode = eventNodes.item(j);
 			NodeList eventSubNodes = evNode.getChildNodes();
 			NamedNodeMap colAttributes = evNode.getAttributes();
-			if(colAttributes==null){
+			if (colAttributes == null) {
 				continue;
 			}
 			String eventID = null;
-			try{
-				eventID = colAttributes.getNamedItem(
-					MarauderParserConstants.MARAUDER_COL_ID_ATTRIBUTE).
-					getNodeValue();
-			}catch(NullPointerException nx){
+			try {
+				eventID = colAttributes.getNamedItem(MarauderParserConstants.MARAUDER_COL_ID_ATTRIBUTE).getNodeValue();
+			} catch (NullPointerException nx) {
 				logger.severe("Exception while trying to fetch event id attribute from event definitions");
 				throw nx;
 			}
 			PriorityQueue<EventKey> keyList = getEventKeyPriorityQueue(eventSubNodes);
-			HashMap<String, MarauderColumnDefinition> eventSpecificDef = clone(configHolder
-					.getColumnDefinitions());
+			HashMap<String, MarauderColumnDefinition> eventSpecificDef = clone(configHolder.getColumnDefinitions());
 			customizeEventColDefinitions(eventSpecificDef, eventSubNodes);
-			if(eventID.equalsIgnoreCase(MarauderParserConstants.MARAUDER_EVENT_DEFAULT_ID)){
+			if (eventID.equalsIgnoreCase(MarauderParserConstants.MARAUDER_EVENT_DEFAULT_ID)) {
 				tempDefinition = new MarauderEventDefinition(-1, keyList, eventSpecificDef);
 				configHolder.getEventDefinitions().put(-1, tempDefinition);
 				continue;
 			}
-			int colId=Integer.parseInt(eventID);
+			int colId = Integer.parseInt(eventID);
 			tempDefinition = new MarauderEventDefinition(colId, keyList, eventSpecificDef);
 			configHolder.getEventDefinitions().put(colId, tempDefinition);
 		}
 	}
-	
+
 	/**
 	 * @param marauderSchema
 	 * @throws XPathExpressionException
 	 */
-	protected void initContextLookup(Document marauderSchema) throws XPathExpressionException{
-		String xpathQuery = MarauderParserConstants.XML_MARAUDER_BASE_XPATH + MarauderParserConstants.XML_MARAUDER_CONTEXT_DEF_XPATH;
-		XPath xpath = XPathFactory.newInstance().newXPath();		
+	protected void initContextLookup(Document marauderSchema) throws XPathExpressionException {
+		String xpathQuery = MarauderParserConstants.XML_MARAUDER_BASE_XPATH
+				+ MarauderParserConstants.XML_MARAUDER_CONTEXT_DEF_XPATH;
+		XPath xpath = XPathFactory.newInstance().newXPath();
 		NodeList eventNodes = null;
-		try{
+		try {
 			eventNodes = (NodeList) xpath.compile(xpathQuery).evaluate(marauderSchema, XPathConstants.NODESET);
-		}catch(XPathExpressionException e){
+		} catch (XPathExpressionException e) {
 			logger.log(Level.SEVERE, "XPath exception occured while trying to initialize Context Lookup");
 			throw e;
 		}
-		for(int i = 0;i<eventNodes.getLength();i++){
+		for (int i = 0; i < eventNodes.getLength(); i++) {
 			Node ctxDef = eventNodes.item(i);
 			NamedNodeMap ctxAttrs = ctxDef.getAttributes();
-			if(ctxAttrs==null){
+			if (ctxAttrs == null) {
 				continue;
 			}
-			String ctxName = ctxDef.getParentNode().getAttributes().getNamedItem(MarauderParserConstants.MARAUDER_CONTEXT_DEF_NAME).getNodeValue();
+			String ctxName = ctxDef.getParentNode().getAttributes()
+					.getNamedItem(MarauderParserConstants.MARAUDER_CONTEXT_DEF_NAME).getNodeValue();
 			String ctxKey = ctxAttrs.getNamedItem(MarauderParserConstants.MARAUDER_CONTEXT_DEF_KEY).getNodeValue();
 			String ctxKVal = ctxAttrs.getNamedItem(MarauderParserConstants.MARAUDER_CONTEXT_DEF_VALUE).getNodeValue();
-			configHolder.getContextLookup().put(ctxKey+MarauderParserConstants.MARAUDER_KEY_DELIMITER+ctxKVal, ctxName);
+			configHolder.getContextLookup().put(ctxKey + MarauderParserConstants.MARAUDER_KEY_DELIMITER + ctxKVal,
+					ctxName);
 		}
 	}
-	
+
 	/**
 	 * Customize column definitions for specific events
+	 * 
 	 * @param eventSpecificDef
 	 * @param eventSubNodes
 	 */
-	protected void customizeEventColDefinitions(
-			HashMap<String, MarauderColumnDefinition> eventSpecificDef, NodeList eventSubNodes) {		
-		if(eventSpecificDef!=null){
+	protected void customizeEventColDefinitions(HashMap<String, MarauderColumnDefinition> eventSpecificDef,
+			NodeList eventSubNodes) {
+		if (eventSpecificDef != null) {
 			NodeList colList = null;
 			try {
 				colList = (NodeList) xpath.compile(MarauderParserConstants.XML_MARAUDER_COLS_COL_XPATH)
 						.evaluate(eventSubNodes, XPathConstants.NODESET);
 			} catch (XPathExpressionException e) {
 				e.printStackTrace();
-			}			
-			if(colList!=null && colList.getLength()>0){
-				extractColumnInformation(eventSpecificDef, colList);				
+			}
+			if (colList != null && colList.getLength() > 0) {
+				extractColumnInformation(eventSpecificDef, colList);
 			}
 		}
 	}
 
 	/**
-	 * Generate priority queues for row key/key priority for
-	 * specific event ID/type
+	 * Generate priority queues for row key/key priority for specific event
+	 * ID/type
+	 * 
 	 * @param eventKeys
 	 * @return eventKeyQueue
 	 */
-	public PriorityQueue<EventKey> getEventKeyPriorityQueue(NodeList eventKeys){
+	public PriorityQueue<EventKey> getEventKeyPriorityQueue(NodeList eventKeys) {
 		EventKey eventKey = null;
-		PriorityQueue<EventKey> eventKeyQueue = new PriorityQueue<EventKey>(5, new PriorityQueueComparator());					
+		PriorityQueue<EventKey> eventKeyQueue = new PriorityQueue<EventKey>(5, new PriorityQueueComparator());
 		NodeList keysList = null;
 		try {
-			keysList = (NodeList) xpath.compile(MarauderParserConstants.XML_MARAUDER_KEYS_XPATH)
-					.evaluate(eventKeys, XPathConstants.NODESET);
+			keysList = (NodeList) xpath.compile(MarauderParserConstants.XML_MARAUDER_KEYS_XPATH).evaluate(eventKeys,
+					XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
 		}
-		if(keysList!=null){
-			for(int j = 0;j<keysList.getLength();j++){
+		if (keysList != null) {
+			for (int j = 0; j < keysList.getLength(); j++) {
 				Node key = keysList.item(j);
 				String id = key.getAttributes().getNamedItem(MarauderParserConstants.MARAUDER_COL_ID_ATTRIBUTE)
 						.getNodeValue();
-				eventKey = new EventKey(id, key.getTextContent(), 
-						Integer.parseInt(key.getAttributes().getNamedItem(MarauderParserConstants
-								.MARAUDER_COL_PRIORITY_ATTRIBUTE).getNodeValue()));
+				eventKey = new EventKey(id, key.getTextContent(), Integer.parseInt(key.getAttributes()
+						.getNamedItem(MarauderParserConstants.MARAUDER_COL_PRIORITY_ATTRIBUTE).getNodeValue()));
 				eventKeyQueue.add(eventKey);
-			}		
+			}
 		}
 		return eventKeyQueue;
 	}
-	
+
 	/**
 	 * Comparator for event index key priority
 	 * 
 	 * @author Ambud Sharma
 	 */
-	public static class PriorityQueueComparator implements Comparator<EventKey>{
-		
+	public static class PriorityQueueComparator implements Comparator<EventKey> {
+
 		@Override
 		public int compare(EventKey k1, EventKey k2) {
 			return Integer.compare(k1.getPriority(), k2.getPriority());
 		}
-		
+
 	}
-		
+
 	/**
 	 * Validation of XML against XSD Schema
-	 * @throws IOException 
-	 * @throws SAXException 
+	 * 
+	 * @throws IOException
+	 * @throws SAXException
 	 */
-	public void validate() throws SAXException, IOException{
+	public void validate() throws SAXException, IOException {
 		Source xmlFile = new StreamSource(new File(xmlConfigFile));
-		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);		
-		Schema schema = schemaFactory.newSchema(new File(xmlSchemaFile));		
+		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		Schema schema = schemaFactory.newSchema(new File(xmlSchemaFile));
 		Validator validator = schema.newValidator();
-//		Validate XML Config against Schema to make sure it is correct
+		// Validate XML Config against Schema to make sure it is correct
 		validator.validate(xmlFile);
 		isValidated = true;
 		logger.log(Level.INFO, "Marauder EventSchema.xml successfully validated!");
 	}
-	
+
 	/**
 	 * Clone the column definitions hash for individual events
+	 * 
 	 * @param clonableMap
 	 * @return clone
 	 */
-	protected static HashMap<String, MarauderColumnDefinition> clone(HashMap<String, MarauderColumnDefinition> clonableMap){
-		HashMap<String, MarauderColumnDefinition> clone = new HashMap<String, MarauderColumnDefinition>(clonableMap.size());
-		for(Entry<String, MarauderColumnDefinition> entry:clonableMap.entrySet()){
+	protected static HashMap<String, MarauderColumnDefinition> clone(
+			HashMap<String, MarauderColumnDefinition> clonableMap) {
+		HashMap<String, MarauderColumnDefinition> clone = new HashMap<String, MarauderColumnDefinition>(
+				clonableMap.size());
+		for (Entry<String, MarauderColumnDefinition> entry : clonableMap.entrySet()) {
 			clone.put(entry.getKey().toString(), new MarauderColumnDefinition(entry.getValue()));
 		}
 		return clone;
 	}
-	
+
 	/**
 	 * Has the XML Config been validated against schema?
+	 * 
 	 * @return isValidated
 	 */
 	public boolean isValidated() {
 		return isValidated;
 	}
-	
+
 }

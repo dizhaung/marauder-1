@@ -28,7 +28,7 @@ import org.ambud.marauder.source.ids.MarauderIDSEvent;
 import org.ambud.marauder.source.ids.MarauderIDSLogFileReader;
 
 /**
- * Reader for Unified2 Log file usually generated from Snort or Surricata IDS. <br/>
+ * Reader for Unified2 Log file usually generated from Snort or Surricata IDS. <br>
  * 
  * Supports all of:
  * <ul>

@@ -23,10 +23,10 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 /**
- * This class defines MarauderEvent which primarily comprises of:<br/>
- * 	1. Event ID<br/>
- * 	2. KeyPriority<br/>
- * 	3. Event specific column definitions<br/>
+ * This class defines MarauderEvent which primarily comprises of:<br>
+ * 	1. Event ID<br>
+ * 	2. KeyPriority<br>
+ * 	3. Event specific column definitions<br>
  * 
  * @author Ambud Sharma
  */

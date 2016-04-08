@@ -163,11 +163,11 @@ public class MarauderHBaseSink extends AbstractSink implements Configurable {
 	/**
 	 * Configure lookup table for serializers supported by the Cluster Sink. A Cluster sink should be able to serialize
 	 * anything and everything that comes it's way without any hickups
-	 * @param immutableMap 
-	 * @param context
-	 * @throws ClassNotFoundException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
+	 * 
+	 * @param immutableMap
+	 * @throws ClassNotFoundException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
 	 */
 	protected void configureSerializerLookupTable(ImmutableMap<String, String> immutableMap) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
 		MarauderEventTypes[] eventTypes = MarauderEventTypes.values();

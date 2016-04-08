@@ -93,8 +93,6 @@ public abstract class MarauderIDSLogFileReader {
 	
 	/**
 	 * Method called in every loop cycle
-	 * @param dis
-	 * @throws EOFException
 	 * @throws IOException 
 	 */
 	protected abstract void read() throws IOException;

@@ -56,15 +56,17 @@ public abstract class MarauderBaseAggregatedSerializer extends MarauderBaseSeria
 		
 	public MarauderBaseAggregatedSerializer() {
 	}
+	
 	/**
 	 * Initialize the parent sink reference used for getting reference to 
 	 * primary table for performing the puts/commits
+	 * 
 	 * @param parentSink
+	 * @param windowSize
 	 */
 	public MarauderBaseAggregatedSerializer(MarauderHBaseSink parentSink, int windowSize) {
 		super(parentSink);
 		this.windowSize = windowSize;
-		
 	}
 
 	byte[] rowKey = null;
@@ -94,10 +96,9 @@ public abstract class MarauderBaseAggregatedSerializer extends MarauderBaseSeria
 	 * storage and searching
 	 * 
 	 * @param hdrs
-	 * @param eventId
+	 * @param timestamp
 	 * @return rowKey
 	 */
-//	@Override
 	protected byte[] constructDefaultRowKey(Map<String, String> hdrs, int timestamp) {
 		byte[] extendedKey = buildExtendedKey(hdrs);
 		byte[] base = new byte[5 + extendedKey.length];		

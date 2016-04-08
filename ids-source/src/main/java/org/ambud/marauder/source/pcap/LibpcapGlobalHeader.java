@@ -24,10 +24,9 @@ import java.io.InputStream;
 import com.google.common.io.LittleEndianDataInputStream;
 
 /**
- * Object representation of libpcap file header. 
+ * Object representation of libpcap file header.
  * 
- * Format source: Wireshark documentation 
- * {@link http://wiki.wireshark.org/Development/LibpcapFileFormat}
+ * Format source: Wireshark documentation
  * 
  * This format is v2.4 as of 9/4/2013
  * 
@@ -35,23 +34,30 @@ import com.google.common.io.LittleEndianDataInputStream;
  */
 public class LibpcapGlobalHeader {
 
-	private int magicNumber;					/* magic number (unsigned long32)*/
-	private int versionMajor, 					/* major version number (unsigned long16)*/
-					versionMinor;				/* minor version number (unsigned long16)*/
-	private int thisZone;						/* GMT to local correction (signed long32)*/
-	private int sigFigs,						/* accuracy of timestamps (unsigned long32)*/
-					snaplen,					/* max length of captured packets, in octets (unsigned long32)*/
-					network;					/* data link type (unsigned long32)*/
-	private boolean isSwapped;					/* computed from magic number and check endianess of the file-data */
-	
+	// http://wiki.wireshark.org/Development/LibpcapFileFormat
+	private int magicNumber; /* magic number (unsigned long32) */
+	private int versionMajor, /* major version number (unsigned long16) */
+			versionMinor; /* minor version number (unsigned long16) */
+	private int thisZone; /* GMT to local correction (signed long32) */
+	private int sigFigs, /* accuracy of timestamps (unsigned long32) */
+			snaplen, /*
+						 * max length of captured packets, in octets (unsigned
+						 * long32)
+						 */
+			network; /* data link type (unsigned long32) */
+	private boolean isSwapped; /*
+								 * computed from magic number and check endianess
+								 * of the file-data
+								 */
+
 	public LibpcapGlobalHeader(InputStream inputStream) throws IOException {
 		this.magicNumber |= inputStream.read() << 24;
 		this.magicNumber |= inputStream.read() << 16;
 		this.magicNumber |= inputStream.read() << 8;
 		this.magicNumber |= inputStream.read();
-		this.isSwapped = (this.magicNumber == 0xd4c3b2a1)?true:false;
+		this.isSwapped = (this.magicNumber == 0xd4c3b2a1) ? true : false;
 		DataInput temp = null;
-		if(isSwapped){
+		if (isSwapped) {
 			temp = new LittleEndianDataInputStream(inputStream);
 			this.versionMajor = temp.readUnsignedShort();
 			this.versionMinor = temp.readUnsignedShort();
@@ -59,7 +65,7 @@ public class LibpcapGlobalHeader {
 			this.sigFigs = temp.readInt();
 			this.snaplen = temp.readInt();
 			this.network = temp.readInt();
-		}else{
+		} else {
 			temp = new DataInputStream(inputStream);
 			this.versionMajor = temp.readUnsignedShort();
 			this.versionMinor = temp.readUnsignedShort();
@@ -69,7 +75,7 @@ public class LibpcapGlobalHeader {
 			this.network = temp.readInt();
 		}
 	}
-	
+
 	/**
 	 * @return the isSwapped
 	 */
@@ -125,10 +131,12 @@ public class LibpcapGlobalHeader {
 	protected int getNetwork() {
 		return network;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Magic Number:"+Integer.toHexString(magicNumber)+" isSwapped:"+isSwapped+" Major_V:"+versionMajor+" Minor_V:"+versionMinor+" Zone:"+thisZone+" Time Resolution:"+sigFigs+" Snap Length:"+snaplen+" Network Link Type:"+network;
+		return "Magic Number:" + Integer.toHexString(magicNumber) + " isSwapped:" + isSwapped + " Major_V:"
+				+ versionMajor + " Minor_V:" + versionMinor + " Zone:" + thisZone + " Time Resolution:" + sigFigs
+				+ " Snap Length:" + snaplen + " Network Link Type:" + network;
 	}
-	
+
 }

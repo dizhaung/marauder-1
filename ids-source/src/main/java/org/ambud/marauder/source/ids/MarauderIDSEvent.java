@@ -62,8 +62,6 @@ public abstract class MarauderIDSEvent extends MarauderBaseEvent {
 	/**
 	 * Explicit method call needed to construct MarauderIDSEvent headers
 	 * from the concrete class. 
-	 * @param ids hostname/name of the IDS sensor
-	 * @param vid IDS type
 	 */
 	public void initHdrs(){
 		super.initHdrs();

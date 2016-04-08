@@ -33,14 +33,13 @@ import com.google.common.io.LittleEndianDataInputStream;
 /**
  * 
  * Format source: Wireshark documentation 
- * {@link http://wiki.wireshark.org/Development/LibpcapFileFormat}
  * 
  * This format is v2.4 as of 9/4/2013
  * @author Ambud Sharma
  *
  */
 public class LibpcapFileReader extends MarauderIDSLogFileReader{
-	
+	// Format source: Wireshark documentation http://wiki.wireshark.org/Development/LibpcapFileFormat
 	private int loopCounter = 1;
 	private LibpcapGlobalHeader fileHeader = null;
 	private LibpcapRecordHeader tempRecordHeader = null;
