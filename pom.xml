@@ -16,11 +16,11 @@
 	<description>Marauder is an open source SIEM platform released under GNU GPLv2</description>
 	
 	<modules>
-		<module>MarauderAnalyticsModule</module>
-		<module>MarauderGenericSinkModule</module>
-		<module>MarauderGenericSourceModule</module>
-		<module>MarauderLibraryModule</module>
-		<module>MarauderSnortSource</module>
+		<module>sink-module</module>
+		<module>source-module</module>
+		<module>library-module</module>
+		<module>ids-source</module>
+		<module>snort-source</module>
 	</modules>
 	
 	<scm>
