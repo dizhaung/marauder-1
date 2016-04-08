@@ -42,4 +42,6 @@
       </plugin>
     </plugins>
   </build>
+  <name>Marauder Source Module</name>
+  <description>Generic source module</description>
 </project>

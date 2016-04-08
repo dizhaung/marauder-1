@@ -52,4 +52,6 @@
       </plugin>
     </plugins>
   </build>
+  <name>Marauder IDS Source</name>
+  <description>Intrusion detection source for Marauder, capable of reading libpcap files.</description>
 </project>

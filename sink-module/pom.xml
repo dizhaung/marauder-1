@@ -114,4 +114,5 @@
       <url>http://clojars.org/repo</url>
     </repository>
   </repositories>
+  <name>Marauder Sink Module</name>
 </project>
