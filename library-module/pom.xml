@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.srotya.marauder</groupId>
     <artifactId>marauder-parent</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>library-module</artifactId>
