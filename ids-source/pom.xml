@@ -1,15 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-  	<groupId>com.srotya.marauder</groupId>
-  	<artifactId>marauder-parent</artifactId>
-  	<version>0.0.1-SNAPSHOT</version>
-  	<relativePath>../pom.xml</relativePath>
+    <groupId>com.srotya.marauder</groupId>
+    <artifactId>marauder-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>ids-source</artifactId>
+  <dependencies>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-io</artifactId>
+      <version>r03</version>
+    </dependency>
+    <dependency>
+      <groupId>com.srotya.marauder</groupId>
+      <artifactId>library-module</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.flume</groupId>
+      <artifactId>flume-ng-core</artifactId>
+      <version>1.4.0</version>
+    </dependency>
+  </dependencies>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <testSourceDirectory>src/test/java</testSourceDirectory>
+    <testResources>
+    	<testResource>
+    		<directory>src/test/resources</directory>
+    		<excludes>
+    			<exclude>**/*.java</exclude>
+    		</excludes>
+    	</testResource>
+    </testResources>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -21,26 +52,4 @@
       </plugin>
     </plugins>
   </build>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.apache.flume</groupId>
-  		<artifactId>flume-ng-core</artifactId>
-  		<version>1.4.0</version>
-  	</dependency>  	
-  	<dependency>
-  		<groupId>junit</groupId>
-  		<artifactId>junit</artifactId>
-  		<version>4.11</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>com.google.guava</groupId>
-  		<artifactId>guava-io</artifactId>
-  		<version>r03</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>com.srotya.marauder</groupId>
-  		<artifactId>library-module</artifactId>
-  		<version>${project.version}</version>
-  	</dependency>
-  </dependencies>
 </project>

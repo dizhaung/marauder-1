@@ -19,35 +19,26 @@ package org.ambud.marauder.source.pcap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.LinkedList;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.ambud.marauder.commons.NetworkUtils;
 import org.ambud.marauder.source.ids.MarauderIDSEvent;
-import org.ambud.marauder.source.pcap.LibpcapFileReader;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TestLibpcapFileReader {
 	
-	private String testPcapFileName = "SampleCaptures/test2.pcap";
+	private String testPcapFileName = "src/test/resources/dhcp.pcap";
 	private int ipAddress = 0;
 
 	@Before
 	public void setUp() throws Exception {
 		String hostAddress = InetAddress.getLocalHost().getHostAddress();
 		int ipAddress = NetworkUtils.stringIPtoInt(hostAddress);
-	}
-
-//	@Test
-	public void testReadLoop() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
