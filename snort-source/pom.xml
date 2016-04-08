@@ -1,14 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-  	<groupId>com.srotya.marauder</groupId>
-  	<artifactId>marauder-parent</artifactId>
-  	<version>0.0.1-SNAPSHOT</version>
-  	<relativePath>../pom.xml</relativePath>
+    <groupId>com.srotya.marauder</groupId>
+    <artifactId>marauder-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>snort-source</artifactId>
   <name>Marader Snort Source</name>
   <description>Snort Unified2 Log Parser</description>
+  <dependencies>
+    <dependency>
+      <groupId>com.srotya.marauder</groupId>
+      <artifactId>ids-source</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-vfs</groupId>
+      <artifactId>commons-vfs</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.flume</groupId>
+      <artifactId>flume-ng-core</artifactId>
+      <version>1.4.0</version>
+    </dependency>
+  </dependencies>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <testSourceDirectory>src/test/java</testSourceDirectory>
@@ -23,21 +41,4 @@
       </plugin>
     </plugins>
   </build>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.apache.flume</groupId>
-  		<artifactId>flume-ng-core</artifactId>
-  		<version>1.4.0</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>commons-vfs</groupId>
-  		<artifactId>commons-vfs</artifactId>
-  		<version>1.0</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>com.srotya.marauder</groupId>
-  		<artifactId>ids-source</artifactId>
-  		<version>${project.version}</version>
-  	</dependency>
-  </dependencies>
 </project>

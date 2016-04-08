@@ -34,12 +34,12 @@
     <sourceDirectory>src/main/java</sourceDirectory>
     <testSourceDirectory>src/test/java</testSourceDirectory>
     <testResources>
-    	<testResource>
-    		<directory>src/test/resources</directory>
-    		<excludes>
-    			<exclude>**/*.java</exclude>
-    		</excludes>
-    	</testResource>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
     </testResources>
     <plugins>
       <plugin>
