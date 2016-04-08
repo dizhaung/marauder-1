@@ -4,10 +4,12 @@
   <parent>
     <groupId>com.srotya.marauder</groupId>
     <artifactId>marauder-parent</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>ids-source</artifactId>
+  <name>Marauder IDS Source</name>
+  <description>Intrusion detection source for Marauder, capable of reading libpcap files.</description>
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -52,6 +54,4 @@
       </plugin>
     </plugins>
   </build>
-  <name>Marauder IDS Source</name>
-  <description>Intrusion detection source for Marauder, capable of reading libpcap files.</description>
 </project>

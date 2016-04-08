@@ -4,10 +4,11 @@
   <parent>
     <groupId>com.srotya.marauder</groupId>
     <artifactId>marauder-parent</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>generic-sink</artifactId>
+  <name>Marauder Sink Module</name>
   <dependencies>
     <dependency>
       <groupId>com.datastax.cassandra</groupId>
@@ -114,5 +115,4 @@
       <url>http://clojars.org/repo</url>
     </repository>
   </repositories>
-  <name>Marauder Sink Module</name>
 </project>

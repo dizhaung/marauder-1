@@ -4,10 +4,12 @@
   <parent>
     <groupId>com.srotya.marauder</groupId>
     <artifactId>marauder-parent</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>generic-source</artifactId>
+  <name>Marauder Source Module</name>
+  <description>Generic source module</description>
   <dependencies>
     <dependency>
       <groupId>com.srotya.marauder</groupId>
@@ -42,6 +44,4 @@
       </plugin>
     </plugins>
   </build>
-  <name>Marauder Source Module</name>
-  <description>Generic source module</description>
 </project>
