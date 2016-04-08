@@ -38,7 +38,7 @@ public class TestLibpcapFileReader {
 	@Before
 	public void setUp() throws Exception {
 		String hostAddress = InetAddress.getLocalHost().getHostAddress();
-		int ipAddress = NetworkUtils.stringIPtoInt(hostAddress);
+		ipAddress = NetworkUtils.stringIPtoInt(hostAddress);
 	}
 
 	@Test

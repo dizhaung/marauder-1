@@ -33,7 +33,7 @@ public abstract class MarauderIDSLogFileReader {
 	private boolean isContinuous = false;
 	private BlockingQueue<MarauderIDSEvent> outputQueueRef = null;
 	private long idleTime = 0;
-	private static int pollInterval = 10000;
+	private int pollInterval = 10000;
 	private int hostAddress = 0;
 	
 	public MarauderIDSLogFileReader(File file, boolean isContinuous, int hostAddress, BlockingQueue<MarauderIDSEvent> outputQueue) throws IOException {
