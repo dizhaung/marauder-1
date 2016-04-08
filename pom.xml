@@ -8,7 +8,7 @@
   </parent>
   <groupId>com.srotya.marauder</groupId>
   <artifactId>marauder-parent</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>marauder</name>
   <description>Marauder is an open source SIEM platform released under GNU GPLv2</description>
@@ -53,6 +53,6 @@
     <connection>scm:git:git@github.com:srotya/marauder.git</connection>
     <developerConnection>scm:git:git@github.com:srotya/marauder.git</developerConnection>
     <url>https://github.com/srotya/marauder.git</url>
-    <tag>marauder-parent-0.0.2</tag>
+    <tag>HEAD</tag>
   </scm>
 </project>
