@@ -17,11 +17,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>commons-vfs</groupId>
-      <artifactId>commons-vfs</artifactId>
-      <version>1.0</version>
-    </dependency>
-    <dependency>
       <groupId>org.apache.flume</groupId>
       <artifactId>flume-ng-core</artifactId>
       <version>1.4.0</version>

@@ -54,7 +54,7 @@ public class Unified2IDSFileReader extends MarauderIDSLogFileReader{
 	public Unified2IDSFileReader(File file, boolean isContinuous, int hostAddress, BlockingQueue<MarauderIDSEvent> outputQueue) throws IOException {
 		super(file, isContinuous, hostAddress, outputQueue);
 		logger.fine("Is file continuous:"+isContinuous);
-		this.reader = new DataInputStream(getIs());
+		this.reader = new DataInputStream(getStream());
 		this.hostAddress = hostAddress;
 	}
 	
@@ -77,7 +77,7 @@ public class Unified2IDSFileReader extends MarauderIDSLogFileReader{
 	/**
 	 * Extract and construct Unified2IDSEvent.
 	 * 
-	 * @return Unified2IDSEvent incase of an event or
+	 * @return Unified2IDSEvent in case of an event or
 	 * @return null in case of packet or extra-data
 	 * @throws IOException
 	 */

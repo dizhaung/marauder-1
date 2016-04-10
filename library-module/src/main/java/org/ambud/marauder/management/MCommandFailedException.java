@@ -18,6 +18,8 @@ package org.ambud.marauder.management;
 
 public class MCommandFailedException extends Exception {
 
+	private static final long serialVersionUID = 1L;
+
 	public MCommandFailedException(String msg) {
 		super("Remote command failed because:"+msg);
 	}

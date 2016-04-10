@@ -14,51 +14,58 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.2
  */
-package org.ambud.marauder.source.pcap.layer4;
+package org.ambud.marauder.source.ids.pcap.layer4;
 
 import java.io.DataInput;
 import java.io.IOException;
 
-import org.ambud.marauder.source.pcap.layer2.EtherFrame;
-import org.ambud.marauder.source.pcap.layer3.NetworkLayer;
+import org.ambud.marauder.source.ids.pcap.layer2.EtherFrame;
+import org.ambud.marauder.source.ids.pcap.layer3.NetworkLayer;
 
-public class UDP implements TransportLayer{
-
-	private short srcPort, dstPort;
-	private short length, chkSum;
+public class ICMP implements TransportLayer {
+	
+	private byte type, code;
+	private short chkSum;
 	private NetworkLayer parent;
 	
-	public UDP() {
+	public ICMP() {
 	}
 	
 	@Override
 	public void decode(DataInput di, NetworkLayer parent) throws IOException {
 		this.parent = parent;
-		this.srcPort = EtherFrame.readShort(di);
-		this.dstPort = EtherFrame.readShort(di);
-		this.length = EtherFrame.readShort(di);
+		this.type = di.readByte();
+		this.code = di.readByte();
 		this.chkSum = EtherFrame.readShort(di);
 	}
 
-	/**
-	 * @return the srcPort
-	 */
-	public short getSrcPort() {
-		return srcPort;
+	@Override
+	public short getSourcePort() {
+		return 0; //ICMP message doesn't have port
+	}
+
+	@Override
+	public short getDestinationPort() {
+		return 0; //ICMP message doesn't have port
+	}
+
+	@Override
+	public NetworkLayer getParent() {
+		return parent;
 	}
 
 	/**
-	 * @return the dstPort
+	 * @return the type
 	 */
-	public short getDstPort() {
-		return dstPort;
+	public byte getType() {
+		return type;
 	}
 
 	/**
-	 * @return the length
+	 * @return the code
 	 */
-	public short getLength() {
-		return length;
+	public byte getCode() {
+		return code;
 	}
 
 	/**
@@ -68,19 +75,4 @@ public class UDP implements TransportLayer{
 		return chkSum;
 	}
 
-	@Override
-	public short getSourcePort() {
-		return srcPort;
-	}
-
-	@Override
-	public short getDestinationPort() {
-		return dstPort;
-	}
-
-	@Override
-	public NetworkLayer getParent() {
-		return parent;
-	}
-	
 }

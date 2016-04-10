@@ -19,7 +19,7 @@ package org.ambud.marauder.source.snort.unified2;
 import java.io.DataInput;
 import java.io.IOException;
 
-import org.ambud.marauder.source.pcap.layer3.IPv4;
+import org.ambud.marauder.source.ids.pcap.layer3.IPv4;
 
 public class Unified2IDSEventv4 extends Unified2IDSEvent {
 

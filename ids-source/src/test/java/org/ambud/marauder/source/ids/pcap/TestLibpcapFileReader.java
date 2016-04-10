@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.2
  */
-package org.ambud.marauder.source.pcap;
+package org.ambud.marauder.source.ids.pcap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -27,6 +27,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import org.ambud.marauder.commons.NetworkUtils;
 import org.ambud.marauder.source.ids.MarauderIDSEvent;
+import org.ambud.marauder.source.ids.pcap.LibpcapFileReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,14 +44,14 @@ public class TestLibpcapFileReader {
 
 	@Test
 	public void testLibpcapFileReader() throws IOException {
-		LibpcapFileReader reader = new LibpcapFileReader(new File(testPcapFileName), false, ipAddress, new ArrayBlockingQueue<MarauderIDSEvent>(5000));
+		LibpcapFileReader reader = new LibpcapFileReader(new File(testPcapFileName), ipAddress, new ArrayBlockingQueue<MarauderIDSEvent>(5000));
 		assertNotNull(reader);
 		reader.closeStream();
 	}
 
 	@Test
 	public void testReadFile() throws IOException {
-		LibpcapFileReader reader = new LibpcapFileReader(new File(testPcapFileName), false, ipAddress, new ArrayBlockingQueue<MarauderIDSEvent>(5000));
+		LibpcapFileReader reader = new LibpcapFileReader(new File(testPcapFileName), ipAddress, new ArrayBlockingQueue<MarauderIDSEvent>(5000));
 		reader.readFile();
 		assertNotNull(reader.getFileHeader());
 		assertEquals(reader.getFileHeader().getVersionMajor(), 2);

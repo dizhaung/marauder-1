@@ -57,11 +57,16 @@ import com.google.common.base.Throwables;
  * 
  * @author Ambud Sharma
  */
-public class MarauderSnortSource extends MarauderIDSSource{
+public class SnortSourceBack extends MarauderIDSSource{
 
-	private Logger logger = Logger.getLogger(MarauderIDSSource.class.getCanonicalName());
+	private static final String PROP_IS_SEQUENTIAL = "sequential";
+	private static final String PROP_BASE_NAME = "base.name";
+	private static final String PROP_DEFAULT_FILENAME = "snort.log";
+	private static final String PROP_DEFAULT_DIR = "/var/log/snort";
+	private static final String PROP_DIRECTORY = "directory";
+	private static final String PROP_PREFIX = "snort.";
+	private Logger logger = Logger.getLogger(SnortSourceBack.class.getCanonicalName());
 	private File watchDirectory = null;
-	private MarauderIDSLogFileReader currentReader = null;
 	private BlockingQueue<MarauderIDSEvent> outputQueue = null;
 	private ExecutorService threadPool = null;
 	private FileObject watchObject = null;
@@ -73,10 +78,10 @@ public class MarauderSnortSource extends MarauderIDSSource{
 	@Override
 	public void configure(Context context) {
 		super.configure(context);
-		context = new Context(context.getSubProperties("com.marauder.ids.snort."));
-		this.watchDirectory = new File(context.getString("directory", "/var/log/snort"));
-		this.logBaseName = context.getString("baseName", "snort.log");
-		this.isSequential = context.getBoolean("isSequential", true);
+		context = new Context(context.getSubProperties(PROP_PREFIX));
+		this.watchDirectory = new File(context.getString(PROP_DIRECTORY, PROP_DEFAULT_DIR));
+		this.logBaseName = context.getString(PROP_BASE_NAME, PROP_DEFAULT_FILENAME);
+		this.isSequential = context.getBoolean(PROP_IS_SEQUENTIAL, true);
 		logger.info("Snort Source will spool/watch - "+this.watchDirectory.getAbsolutePath()+" for Snort log files whose names start with:"+this.logBaseName);
 		FileSystemManager fsMgr = null;
 		try {
@@ -100,7 +105,7 @@ public class MarauderSnortSource extends MarauderIDSSource{
 			public void fileCreated(FileChangeEvent fileEvent) throws Exception {
 				if(acceptFile(fileEvent.getFile().getName().getBaseName())){					
 					logger.info("Acknowledged new file:"+fileEvent.getFile().getName().getPath());
-					currentReader = processFile(fileEvent.getFile(), true);
+					processFile(fileEvent.getFile(), true);
 				}
 			}
 

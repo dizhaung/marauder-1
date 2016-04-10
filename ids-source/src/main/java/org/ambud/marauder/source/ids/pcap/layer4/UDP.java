@@ -14,23 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.2
  */
-package org.ambud.marauder.source.pcap.layer4;
+package org.ambud.marauder.source.ids.pcap.layer4;
 
 import java.io.DataInput;
 import java.io.IOException;
 
-import org.ambud.marauder.source.pcap.layer2.EtherFrame;
-import org.ambud.marauder.source.pcap.layer3.NetworkLayer;
+import org.ambud.marauder.source.ids.pcap.layer2.EtherFrame;
+import org.ambud.marauder.source.ids.pcap.layer3.NetworkLayer;
 
-public class TCP implements TransportLayer{
+public class UDP implements TransportLayer{
 
 	private short srcPort, dstPort;
-	private int seqNumber, ackNumber;
-	private byte hlen, reserved, flgs;
-	private short winSize, chkSum, urgPtr;
+	private short length, chkSum;
 	private NetworkLayer parent;
 	
-	public TCP() {
+	public UDP() {
 	}
 	
 	@Override
@@ -38,19 +36,8 @@ public class TCP implements TransportLayer{
 		this.parent = parent;
 		this.srcPort = EtherFrame.readShort(di);
 		this.dstPort = EtherFrame.readShort(di);
-		this.seqNumber = di.readInt();
-		this.ackNumber = di.readInt();
-		byte[] temp = new byte[2];
-		this.hlen = (byte) ((temp[0] >> 4) & 0xff);
-//		this.reserved = (byte) (((temp[0] << 4) & 0xff) | ((temp[1] >> 6) & 0xff));
-		this.flgs = (byte) (((temp[1] << 2) & 0xff) >> 2);
-		this.winSize = EtherFrame.readShort(di);
+		this.length = EtherFrame.readShort(di);
 		this.chkSum = EtherFrame.readShort(di);
-		this.urgPtr = EtherFrame.readShort(di);
-		if(hlen > 5){
-			// ignore tcp options
-			di.skipBytes((hlen-5)*4);
-		}
 	}
 
 	/**
@@ -68,45 +55,10 @@ public class TCP implements TransportLayer{
 	}
 
 	/**
-	 * @return the seqNumber
+	 * @return the length
 	 */
-	public int getSeqNumber() {
-		return seqNumber;
-	}
-
-	/**
-	 * @return the ackNumber
-	 */
-	public int getAckNumber() {
-		return ackNumber;
-	}
-
-	/**
-	 * @return the hlen
-	 */
-	public byte getHlen() {
-		return hlen;
-	}
-
-	/**
-	 * @return the reserved
-	 */
-	public byte getReserved() {
-		return reserved;
-	}
-
-	/**
-	 * @return the flgs
-	 */
-	public byte getFlgs() {
-		return flgs;
-	}
-
-	/**
-	 * @return the winSize
-	 */
-	public short getWinSize() {
-		return winSize;
+	public short getLength() {
+		return length;
 	}
 
 	/**
@@ -114,13 +66,6 @@ public class TCP implements TransportLayer{
 	 */
 	public short getChkSum() {
 		return chkSum;
-	}
-
-	/**
-	 * @return the urgPtr
-	 */
-	public short getUrgPtr() {
-		return urgPtr;
 	}
 
 	@Override
@@ -132,18 +77,10 @@ public class TCP implements TransportLayer{
 	public short getDestinationPort() {
 		return dstPort;
 	}
-	
-	/**
-	 * Return Parent
-	 * @return
-	 */
+
+	@Override
 	public NetworkLayer getParent() {
 		return parent;
-	}
-	
-	@Override
-	public String toString() {
-		return "SrcPort:"+((int)srcPort & 0xffff)+" DstPort:"+((int)dstPort & 0xffff);
 	}
 	
 }

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2013 Ambud Sharma
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -17,6 +17,8 @@
 package org.ambud.marauder.source.configuration;
 
 public class InvalidConfigException extends Exception {
+
+	private static final long serialVersionUID = 1L;
 
 	public InvalidConfigException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {

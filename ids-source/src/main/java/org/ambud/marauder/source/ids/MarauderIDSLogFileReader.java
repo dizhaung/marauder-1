@@ -115,7 +115,7 @@ public abstract class MarauderIDSLogFileReader {
 	/**
 	 * @return the is
 	 */
-	protected InputStream getIs() {
+	protected InputStream getStream() {
 		return is;
 	}
 

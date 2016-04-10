@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.2
  */
-package org.ambud.marauder.source.pcap;
+package org.ambud.marauder.source.ids.pcap;
 
 import java.util.ArrayList;
 
-import org.ambud.marauder.source.pcap.layer3.IPv4;
+import org.ambud.marauder.source.ids.pcap.layer3.IPv4;
 import org.junit.Test;
 
 public class TestHexIP {
